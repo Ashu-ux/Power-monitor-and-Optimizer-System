@@ -3,47 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Energy Dashboard</title>
+    <title>Smart Grid</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; background: #0f172a; color: white; }
-        .sidebar { width: 250px; height: 100vh; background: #1e293b; position: fixed; padding: 20px; }
-        .sidebar h2 { color: #38bdf8; }
-        .sidebar a { color: white; display: block; padding: 10px; text-decoration: none; cursor: pointer; }
-        .sidebar a:hover { background: #334155; }
-        .content { margin-left: 270px; padding: 20px; }
-        .card { background: #1e293b; padding: 20px; margin: 10px; border-radius: 10px; text-align: center; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .btn { background: #38bdf8; padding: 10px; border: none; color: white; cursor: pointer; }
-        .btn:hover { background: #0284c7; }
-        .footer { text-align: center;padding: 0px; background: #1e293b; color: #ffffff; margin-top: 310px; }
-        .hidden { display: none; }
-        .data-table {
-            height: 90%;
-            width: 90%;
-            margin: 20px 0;
-            border-collapse: collapse;
-        }
-        .data-table th, .data-table td {
-            
-            padding: 15px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="sidebar">
         <h2>Smart Grid</h2>
-        <a onclick="showContent('dashboard')">Dashboard</a>
-        <a onclick="showContent('cost')">Cost</a>
-        <a onclick="showContent('appliances')">Appliances</a>
-        <a onclick="showContent('usage')">Usage-by-Room</a>
-        <a onclick="showContent('emissions')">Emissions</a>
+        <a href="#">Dashboard</a>
+        <a href="#">Cost</a>
+        <a href="#">Appliances</a>
+        <a href="#">Usage-by-Room</a>
+        <a href="#">Emissions</a>
     </div>
-
-    <div id="dashboard" class="content">
+    <div class="content">
         <h1>Energy Consumption</h1>
         <div class="grid">
             <div class="card">
@@ -56,105 +30,12 @@
                 <p>Lighting: 0.4 kWh</p>
             </div>
             <div class="card">
-            <table class="data-table">
-                <tr>
-                    <th>Voltage</th>
-                    <th>Current</th>
-                    <th>Power</th>
-                    <th>Total Power</th>
-                </tr>
-                <tr>
-                    <td id="voltage">0 V</td>
-                    <td id="current">0 A</td>
-                    <td id="Power">0 w</td>
-                    <td id="Power">0 w</td>
-                </tr>
-                </table>
-            </div>
-                
-            </div>
-        </div>
-    </div>
-
-    <div id="cost" class="content hidden">
-        <h1>Energy Cost</h1>
-        <div class="grid">
-            
-           
-            <div class="card">
-                <h3>Cost Analysis</h3>
-                <p>February: $20</p>
-                <p>Toatal cost this month:</p>
-                <p>Estimated Savings:$21</p>
-            </div>
-            <div class="card">
-                <h3>Monthly Energy Costs</h3>
-                <canvas id="costChart"></canvas>
-            </div>
-
-        </div>
-    </div>
-
-    <div id="appliances" class="content hidden">
-        <h1>Control Appliances</h1>
-        <div class="grid">
-            <div class="card">
+                <h3>Control Appliances</h3>
                 <button class="btn" onclick="toggleAppliance('light')">Toggle Light</button>
                 <button class="btn" onclick="toggleAppliance('ac')">Toggle AC</button>
             </div>
         </div>
     </div>
-    <div class="footer">
-        <p>All rights reserved to Smart Power Grid.</p>
-    </div>
-
-    <script>
-        let ctx = document.getElementById('energyChart').getContext('2d');
-        let energyChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['May', 'June', 'July'],
-                datasets: [{
-                    label: 'kWh Used',
-                    data: [150, 200, 250],
-                    backgroundColor: ['#38bdf8', '#facc15', '#f43f5e']
-                }]
-            }
-        });
-
-        function showContent(section) {
-            let sections = document.querySelectorAll('.content');
-            sections.forEach(div => div.classList.add('hidden'));
-            document.getElementById(section).classList.remove('hidden');
-        }
-
-        function toggleAppliance(device) {
-            fetch(`http://your-esp-ip/control?device=${device}`, { method: 'GET' })
-                .then(response => response.text())
-                .then(data => alert(`Device: ${device} - ${data}`));
-        }
-
-        let costCtx = document.getElementById('costChart').getContext('2d');
-        new Chart(costCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                datasets: [{
-                    label: 'Monthly Cost ($)',
-                    data: [180, 203, 214, 190, 195, 210, 220, 225, 215, 200, 190, 185],
-                    backgroundColor: '#38bdf8'
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
